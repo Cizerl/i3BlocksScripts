@@ -32,25 +32,31 @@ int main(){
     double all = get_diskSize(vfs.f_blocks, vfs.f_bsize);
     double avail = get_availableDiskSpace(vfs.f_bavail, vfs.f_bsize);
 
+    const char *color_yellow = "#FFFF00";
+    const char *color_orange = "#FFA500";
+    const char *color_red    = "#FF0000";
+
+    const char *icon = "\uF0A0";
+
     if(avail > (all*0.15)){
-        printf("<span>%.1f GB</span>\n", avail);
-        printf("<span>%.1f GB</span>\n", avail);
+        printf("<span>%s %.1fGB</span>\n", icon, avail);
+        printf("<span>%s %.1fGB</span>\n", icon, avail);
         return 0;
     }else if(avail > (all*0.10)){
-        printf("<span color=\"#FFFF00\">%.1f GB</span>\n", avail);
-        printf("<span color=\"#FFFF00\">%.1f GB</span>\n", avail);
+        printf("<span color=\"%s\">%s %.1fGB</span>\n", color_yellow, icon, avail);
+        printf("<span color=\"%s\">%s %.1fGB</span>\n", color_yellow, icon, avail);
         return 0;
     }else if(avail > (all*0.05)){
-        printf("<span color=\"#FFA500\">%.1f GB</span>\n", avail);
-        printf("<span color=\"#FFA500\">%.1f GB</span>\n", avail);
+        printf("<span color=\"%s\">%s %.1fGB</span>\n", color_orange, icon, avail);
+        printf("<span color=\"%s\">%s %.1fGB</span>\n", color_orange, icon, avail);
         return 0;
     }else if(avail > (all*0.025)){
-        printf("<span color=\"#FF0000\">%.1f GB</span>\n", avail);
-        printf("<span color=\"#FF0000\">%.1f GB</span>\n", avail);
+        printf("<span color=\"%s\">%s %.1fGB</span>\n", color_red, icon, avail);
+        printf("<span color=\"%s\">%s %.1fGB</span>\n", color_red, icon, avail);
         return 0;
     }else{
-        printf("<span>%.1f GB</span>\n", avail);
-        printf("<span>%.1f GB</span>\n", avail);
+        printf("<span>%s %.1fGB</span>\n", icon, avail);
+        printf("<span>%s %.1fGB</span>\n", icon, avail);
         return 33;
     }
 
