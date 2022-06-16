@@ -21,10 +21,10 @@ interval=5
 
 |   | FontAwesome-Icons installed | light installed |
 |---|:-:|:-:|
-| Battery-Module | :white_check_mark: | - | 
-| Temperature-Module | :white_check_mark: | - |
-| Disk-Module | :white_check_mark:  |  - |
-| Brightness-Module | - |  :white_check_mark: |
+| Battery-Module | :heavy_check_mark: | - | 
+| Temperature-Module | :heavy_check_mark: | - |
+| Disk-Module | :heavy_check_mark:  |  - |
+| Brightness-Module | - |  :heavy_check_mark: |
 
 
 ## Battery-Module
