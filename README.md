@@ -6,7 +6,7 @@ If you want to use the C Programs you need to to compile them once. Example:
 ```
 gcc [programName].c -o programName
 **Battery-Example**
-gcc BatteryBlock.c -o BatteryBlock
+gcc batteryBlock.c -o batteryBlock
 ```
 You can then use them in the i3Blocks Config like this:
 ```
@@ -15,7 +15,6 @@ command=/home/your_user/.config/i3/ScriptFolderName/batteryBlock
 markup=pango
 interval=5 
 ```
-
 
 ### Project-Dependencies:
 
@@ -29,7 +28,7 @@ interval=5
 
 ## Battery-Module
 
-The battery module displays the current charge percent of your battery/batteries. 
+The battery module displays the current charge percent of your battery/batteries. If your batteries have varying capacities the program won't just add up and divide the charge percentage numbers, but instead will calculate the real combined capacity of them and display a more accurate percentage number.
 The exponent next to the battery icon is used to indicate how many batteries are currently used:
  * **One Battery:** ![One Battery](/images/singleBattery80.png) &nbsp;&nbsp;&nbsp; **Two Batteries:** ![Two Batteries](/images/battery80.png)
 
@@ -47,6 +46,14 @@ The icon and the color changes depending on the charge levels. If its charging t
 |30% - 20%|![](/images/battery25.png)|
 |20% - 10%|![](/images/battery15.png)|
 |10% - 0%|![](/images/battery5.png)|
+
+#### Threshold-Scaling
+
+If thresholds are acitve, the charge percentage displayed will be automatically scaled to 100. This means if the stop_charge_threshold is set to 80% and 80% is reached, the output percentage number displayed will be 100%.
+This also works if two batteries are used with varying capacities and varying thresholds set. thresholds are read at:
+```
+/sys/class/power_supply/BATX/charge_control_end_threshold 
+```
 
 
 ## Temperature-Module
