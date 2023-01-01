@@ -30,10 +30,13 @@ char read_batteryStatus(const char *path){
 
     FILE *in;
     if((in = fopen(path, "r")) == NULL){
-        return 'f';
+        return 'e';
     }
     fgets(input_buffer, BUFFER_SIZE, in);
     fclose(in);
+
+    if(strstr(input_buffer, "Full") != NULL)
+        return 'F';
 
     if(strstr(input_buffer, "Discharging") != NULL)
         return 'D';
@@ -44,11 +47,11 @@ char read_batteryStatus(const char *path){
     if(strstr(input_buffer, "Charging") != NULL)
         return 'C';
 
-    return 'f';
+    return 'e';
 }
 
 bool data_verification(int capacity, int eNow, int eFull, int eThreshold, char status){
-    if(status == 'f'){
+    if(status == 'e'){
         return false;
     }
     if((capacity == -1)||(eNow == -1)||(eFull == -1)||(eThreshold == -1)){
