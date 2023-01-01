@@ -150,34 +150,28 @@ int main(void){
     int bat0_capacity       = read_batteryData("/sys/class/power_supply/BAT0/capacity");
     int bat0_energyNow      = read_batteryData("/sys/class/power_supply/BAT0/energy_now");
     int bat0_energyFull     = read_batteryData("/sys/class/power_supply/BAT0/energy_full");
-    int bat0_endThreshold   = read_batteryData("/sys/class/power_supply/BAT0/charge_stop_threshold");   //check if this is the right threshold path
+    int bat0_endThreshold   = read_batteryData("/sys/class/power_supply/BAT0/charge_stop_threshold");  
     char bat0_status        = read_batteryStatus("/sys/class/power_supply/BAT0/status");
 
     int bat1_capacity       = read_batteryData("/sys/class/power_supply/BAT1/capacity");
     int bat1_energyNow      = read_batteryData("/sys/class/power_supply/BAT1/energy_now");
     int bat1_energyFull     = read_batteryData("/sys/class/power_supply/BAT1/energy_full");
-    int bat1_endThreshold   = read_batteryData("/sys/class/power_supply/BAT1/charge_stop_threshold");     //check if this is the right threshold path
+    int bat1_endThreshold   = read_batteryData("/sys/class/power_supply/BAT1/charge_stop_threshold");    
     char bat1_status        = read_batteryStatus("/sys/class/power_supply/BAT1/status");
     
     bool bat0_dataOK = data_verification(bat0_capacity, bat0_energyNow, bat0_energyFull, bat0_endThreshold, bat0_status);
     bool bat1_dataOK = data_verification(bat1_capacity, bat1_energyNow, bat1_energyFull, bat1_endThreshold, bat1_status);
 
+    // all the math works even if you don't have any thresholds active
     if(bat0_dataOK && bat1_dataOK){
         double total_energyNow = bat0_energyNow + bat1_energyNow;
-        //change if threshold isn't working how envisioned, if thresholds dont get changed, just leave it like this since its just --> /100*100 <--
         double total_energyFullScaled = (bat0_energyFull / 100 * bat0_endThreshold) + (bat1_energyFull / 100 * bat1_endThreshold);
         charge = (total_energyNow / total_energyFullScaled *100);
         both_BatOK = true;
     }else if(bat0_dataOK){
-        //if capacity isn't auto-scaled use following equation
         charge = (((double)bat0_capacity) / bat0_endThreshold) * 100;
-        //if capacity is auto-scaled with threshold uncomment following equation 
-        //charge = bat0_capacity;
     }else if(bat1_dataOK){
-        //if capacity isn't auto-scaled use following equation
         charge = (((double)bat1_capacity) / bat1_endThreshold) * 100;
-        //if capacity is auto-scaled with threshold uncomment following equation 
-        //charge = bat1_capacity;
     }else{
         //double output because thats how i3blocks prefers it according to the Doc...
         printf("Battery Data not available!\n");
@@ -185,7 +179,7 @@ int main(void){
         return 33;
     }
 
-    // +1 to round up, since it wont ever be 100% otherwise or only for one second
+    // +1 to round up, since it won't ever be 100% otherwise or only for one second, if it isnt pluged into the AC
     int charge_i = (int)(charge + 1);
 
     return screen_output(charge_i, both_BatOK, bat0_status, bat1_status);
